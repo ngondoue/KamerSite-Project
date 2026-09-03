@@ -1,8 +1,8 @@
 import express from "express"
 import dotenv from "dotenv"
+import User from "./models/user.js"
 import cors from "cors"
 import mongoose from "mongoose"
-
 
 dotenv.config()
 const app = express()
@@ -13,11 +13,11 @@ app.use(cors())
 const PORT = process.env.PORT || 3000
 
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {console.log(`MongoDB SUCCESFULLY CONNECTED`)})
+    .then(() => console.log(`MongoDB SUCCESFULLY CONNECTED`))
     .catch((err) => err.message)
 
 app.listen(PORT, () => {
-    console.log(`Server listening at port ${PORT}`)
+    console.log(`Server is running on port ${PORT}`)
 })
 
 
