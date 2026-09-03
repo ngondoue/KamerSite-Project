@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | KamerSite</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar-outer">
+      <div class="admin-sidebar-brand"><span data-icon="pin"></span><span>KamerSite<small>Admin</small></span></div>
+      <nav class="admin-sidebar-nav">
+        <a href="#" class="admin-nav-link active" data-section="dashboard"><span data-icon="home"></span><span>Dashboard</span></a>
+        <a href="#" class="admin-nav-link" data-section="places"><span data-icon="pin"></span><span>Places</span></a>
+        <a href="#" class="admin-nav-link" data-section="place-form"><span data-icon="gallery"></span><span>Add Place</span></a>
+        <a href="#" class="admin-nav-link" data-section="categories"><span data-icon="gem"></span><span>Categories</span></a>
+        <a href="#" class="admin-nav-link" data-section="reviews"><span data-icon="reviews"></span><span>Reviews</span></a>
+        <a href="#" class="admin-nav-link" data-section="users"><span data-icon="user"></span><span>Users</span></a>
+      </nav>
+      <button class="admin-sidebar-logout" id="admin-logout-btn"><span data-icon="arrowRight" style="transform:rotate(180deg);display:inline-flex;"></span><span>Log out</span></button>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <h1 id="admin-page-title">Dashboard</h1>
+        <div class="admin-topbar-user">
+          <a href="index.html" class="admin-view-site-link"><span data-icon="home"></span><span>View site</span></a>
+          <div class="admin-user-chip">
+            <span class="admin-user-avatar" id="admin-user-avatar">?</span>
+            <span id="admin-user-name">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+
+        <!-- Dashboard -->
+        <section class="admin-section active" id="section-dashboard">
+          <div class="stat-grid" id="stat-grid"></div>
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar"><h2>Quick Actions</h2></div>
+            <div class="action-group">
+              <button class="btn btn-primary" data-goto="place-form"><span data-icon="pin"></span>Add Destination</button>
+              <button class="btn btn-secondary" data-goto="places"><span data-icon="home"></span>Manage Places</button>
+              <button class="btn btn-secondary" data-goto="categories"><span data-icon="gem"></span>Manage Categories</button>
+              <button class="btn btn-secondary" data-goto="reviews"><span data-icon="reviews"></span>Moderate Reviews</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Places -->
+        <section class="admin-section" id="section-places">
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar">
+              <h2>All Destinations</h2>
+              <div class="admin-filters">
+                <select id="filter-place-status">
+                  <option value="">All statuses</option>
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <button class="btn btn-primary" data-goto="place-form"><span data-icon="pin"></span>Add Destination</button>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th>Place</th><th>Category</th><th>Status</th><th>Verified</th><th>Rating</th><th>Actions</th></tr></thead>
+                <tbody id="places-table-body"></tbody>
+              </table>
+            </div>
+            <div id="places-empty"></div>
+          </div>
+        </section>
+
+        <!-- Add/Edit Place -->
+        <section class="admin-section" id="section-place-form">
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar">
+              <h2 id="place-form-heading">Add New Destination</h2>
+              <button class="btn btn-ghost" data-goto="places">Back to Places</button>
+            </div>
+            <p class="form-success" id="place-form-success" hidden></p>
+            <form id="place-form">
+              <div id="place-form-fields" class="admin-form"></div>
+              <p class="form-error" id="place-form-error" hidden></p>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="place-form-submit"><span data-icon="pin"></span>Create Destination</button>
+                <button type="button" class="btn btn-ghost" data-goto="places">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="admin-section" id="section-categories">
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar"><h2>Add Category</h2></div>
+            <form id="category-form">
+              <div class="admin-form">
+                <div class="field"><label for="cat-name">Name</label><input type="text" id="cat-name" placeholder="e.g. Restaurants" required></div>
+                <div class="field"><label for="cat-icon">Icon key</label><input type="text" id="cat-icon" placeholder="restaurant, park, zoo, camera, gem"></div>
+                <div class="field field-full"><label for="cat-description">Description</label><input type="text" id="cat-description" placeholder="Short description"></div>
+                <div class="field field-full"><label for="cat-image">Image URL</label><input type="text" id="cat-image" placeholder="https://..."></div>
+              </div>
+              <p class="form-error" id="category-form-error" hidden></p>
+              <div class="form-actions"><button type="submit" class="btn btn-primary"><span data-icon="gem"></span>Add Category</button></div>
+            </form>
+          </div>
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar"><h2>All Categories</h2></div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th>Category</th><th>Description</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="categories-table-body"></tbody>
+              </table>
+            </div>
+            <div id="categories-empty"></div>
+          </div>
+        </section>
+
+        <!-- Reviews -->
+        <section class="admin-section" id="section-reviews">
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar">
+              <h2>All Reviews</h2>
+              <div class="admin-filters">
+                <select id="filter-review-status">
+                  <option value="">All statuses</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th>Reviewer</th><th>Place</th><th>Rating</th><th>Comment</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="reviews-table-body"></tbody>
+              </table>
+            </div>
+            <div id="reviews-empty"></div>
+          </div>
+        </section>
+
+        <!-- Users -->
+        <section class="admin-section" id="section-users">
+          <div class="admin-panel">
+            <div class="admin-panel-toolbar"><h2>All Users</h2></div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+                <tbody id="users-table-body"></tbody>
+              </table>
+            </div>
+            <div id="users-empty"></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="admin-modal-backdrop" id="confirm-modal">
+    <div class="admin-modal">
+      <h3 id="confirm-modal-title">Are you sure?</h3>
+      <p id="confirm-modal-text">This action cannot be undone.</p>
+      <div class="admin-modal-actions">
+        <button class="btn btn-ghost" id="confirm-modal-cancel">Cancel</button>
+        <button class="btn btn-danger" id="confirm-modal-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
